@@ -1,8 +1,8 @@
 # InfiniteScrollingBackground
-How to use:__
-• Create a InfiniteScrollingBackground instance__
-• Call the "scroll" method__
-• That's it!__
+How to use: <br />
+• Create a InfiniteScrollingBackground instance <br />
+• Call the "scroll" method <br />
+• That's it! <br />
 
 # Example (inside a SKScene)
 ```
@@ -16,5 +16,5 @@ scrollingBackground.zPosition = 0.5
 ```
 
 # Advices
-• Use images with a similar aspect ratio to the device's display. Example: If it's an iPhone on landscape, try to use a 16:9 image. On portrait, use 9:16 images.__
+• Use images with a similar aspect ratio to the device's display. Example: If it's an iPhone on landscape, try to use a 16:9 image. On portrait, use 9:16 images. <br />
 • Remember to set the zPosition after initializing the scrolling background object.
