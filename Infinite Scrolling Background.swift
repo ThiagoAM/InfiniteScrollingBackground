@@ -3,7 +3,6 @@
 //  Star One
 //
 //  Created by Thiago Martins on 27/03/2018.
-//  Copyright © 2018 Thiago Martins. All rights reserved.
 //
 
 import SpriteKit
@@ -34,6 +33,15 @@ class InfiniteScrollingBackground {
         }
         set {
             setAlpha(newValue)
+        }
+    }
+    
+    public var isPaused : Bool {
+        get {
+            return getIsPaused()
+        }
+        set {
+            setIsPaused(newValue)
         }
     }
     
@@ -169,6 +177,16 @@ class InfiniteScrollingBackground {
     }
     
     // Getters and Setters
+    private func getIsPaused() -> Bool {
+        return sprites[0].isPaused
+    }
+    
+    private func setIsPaused(_ value : Bool) {
+        for sprite in sprites {
+            sprite.isPaused = value
+        }
+    }
+    
     private func getAlpha() -> CGFloat {
         return sprites[0].alpha
     }
@@ -190,8 +208,6 @@ class InfiniteScrollingBackground {
     }
     
 }
-
-
 
 
 
