@@ -1,7 +1,5 @@
 //
 //  Infinite Scrolling Background.swift
-//  Star One
-//
 //  Created by Thiago Martins on 27/03/2018.
 //
 
@@ -57,22 +55,22 @@ class InfiniteScrollingBackground {
     
     /**
      Creates an Infinite Scrolling Background for a SKScene.
-     - images: use at least 1 image
+     - images: use at least 2 images
      - scene: your SKScene instance
      - scrollDirection: use .top, .bottom, .left or .right
      - speed: the lower, the faster. Needs to be bigger than 0
     **/
     init?(images : [UIImage], scene : SKScene, scrollDirection : ScrollDirection, speed : TimeInterval) {
         // handling invalid initializations:
-        if images.count < 1 {
-            print("InfiniteScrollingBackground Initialization Error - You must provide at least 1 image!")
+        if images.count < 2 {
+            print("InfiniteScrollingBackground Initialization Error - You must provide at least 2 images!")
             return nil
         }
         if speed <= 0 {
             print("InfiniteScrollingBackground Initialization Error - The speed must be bigger than zero!")
             return nil
         }
-        // setup attributes:
+        // initiating attributes:
         let spriteSize = InfiniteScrollingBackground.calculateSpriteSize(scrollDirection, images[0].size, scene)
         self.sprites = InfiniteScrollingBackground.makeSpriteNodes(images, spriteSize)
         self.scene = scene
@@ -206,7 +204,6 @@ class InfiniteScrollingBackground {
             sprite.zPosition = value
         }
     }
-    
 }
 
 
