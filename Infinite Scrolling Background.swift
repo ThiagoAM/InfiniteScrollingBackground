@@ -62,12 +62,12 @@ class InfiniteScrollingBackground {
     **/
     init?(images : [UIImage], scene : SKScene, scrollDirection : ScrollDirection, speed : TimeInterval) {
         // handling invalid initializations:
-        if images.count < 2 {
-            print("InfiniteScrollingBackground Initialization Error - You must provide at least 2 images!")
+        guard images.count > 1 else {
+            InfiniteScrollingBackground.printInitErrorMessage("You must provide at least 2 images!")
             return nil
         }
-        if speed <= 0 {
-            print("InfiniteScrollingBackground Initialization Error - The speed must be bigger than zero!")
+        guard speed > 0 else {
+            InfiniteScrollingBackground.printInitErrorMessage("The speed must be bigger than zero!")
             return nil
         }
         // initiating attributes:
@@ -204,6 +204,12 @@ class InfiniteScrollingBackground {
             sprite.zPosition = value
         }
     }
+    
+    // MARK: Static Private Methods
+    static private func printInitErrorMessage(_ message : String) {
+        print("InfiniteScrollingBackground Initialization Error - " + message)
+    }
+    
 }
 
 
