@@ -1,6 +1,7 @@
 //
 //  Infinite Scrolling Background.swift
 //  Created by Thiago Martins on 27/03/2018.
+//  github.com/ThiagoAM
 //
 
 import SpriteKit
@@ -75,7 +76,7 @@ class InfiniteScrollingBackground {
         self.sprites = InfiniteScrollingBackground.makeSpriteNodes(images, spriteSize)
         self.scene = scene
         self.scrollDirection = scrollDirection
-        self.speed = speed
+        self.speed = speed        
     }
     
     // MARK: Public Methods
@@ -208,20 +209,6 @@ class InfiniteScrollingBackground {
     // MARK: Static Private Methods
     static private func printInitErrorMessage(_ message : String) {
         print("InfiniteScrollingBackground Initialization Error - " + message)
-    }
-    
+    }    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
