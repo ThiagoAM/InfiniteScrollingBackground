@@ -6,15 +6,26 @@
 
 # Example (inside a SKScene)
 ```
-// Creating the instance:
-let images : [UIImage] = [UIImage(named: "bg1"), UIImage(named: "bg2")]
-let scrollingBackground = InfiniteScrollingBackground(images: images, scene: self, scrollDirection: .bottom, speed: 3)
-
-// Calling the "scroll" method:
-scrollingBackground.scroll()
-
-// (Optional) Changhing the instance's zPosition:
-scrollingBackground.zPosition = 0.5
+class ExampleGameScene : SKScene {
+    
+    // Declaring the InfiniteScrollingBackground Instance:
+    var scrollingBackground : GameAudioPlayer?
+    
+    override init() {
+        super.init()
+        
+        // Getting the images:
+        let images : [UIImage] = [UIImage(named: "bg1"), UIImage(named: "bg2")]
+        
+        // Initializing InfiniteScrollingBackground's Instance:
+        scrollingBackground = InfiniteScrollingBackground(images: images, scene: self, scrollDirection: .bottom, speed: 3)
+        
+        // (Optional) Changhing the instance's zPosition:
+        scrollingBackground.zPosition = 0.5
+        
+    }
+    
+}
 ```
 
 # Advices
