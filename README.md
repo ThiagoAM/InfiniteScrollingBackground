@@ -20,7 +20,7 @@ class ExampleGameScene : SKScene {
         // Initializing InfiniteScrollingBackground's Instance:
         scrollingBackground = InfiniteScrollingBackground(images: images, scene: self, scrollDirection: .bottom, speed: 3)
         
-        // (Optional) Changhing the instance's zPosition:
+        // (Optional) Changing the instance's zPosition:
         scrollingBackground?.zPosition = 0.5
         
         // Using it:
