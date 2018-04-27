@@ -4,6 +4,8 @@
 • Call the `scroll` method <br />
 • That's it! <br />
 
+# Check out the Xcode project inside the Example_Project folder!
+
 # Example (inside a SKScene)
 ```
 class GameScene: SKScene {
