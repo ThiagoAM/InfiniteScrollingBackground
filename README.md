@@ -4,7 +4,7 @@
 • Call the `scroll` method <br />
 • That's it! <br />
 
-**• Check out the Xcode project inside the Example_Project folder!**<br />
+**Check and run the Xcode project inside the Example_Project folder!**<br />
 
 # Example (inside a SKScene)
 ```
