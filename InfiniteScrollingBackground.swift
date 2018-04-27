@@ -60,8 +60,9 @@ class InfiniteScrollingBackground {
      - scene: your SKScene instance
      - scrollDirection: use .top, .bottom, .left or .right
      - speed: the lower, the faster. Needs to be bigger than 0
-    **/
+     **/
     init?(images : [UIImage], scene : SKScene, scrollDirection : ScrollDirection, speed : TimeInterval) {
+        
         // handling invalid initializations:
         guard images.count > 1 else {
             InfiniteScrollingBackground.printInitErrorMessage("You must provide at least 2 images!")
@@ -76,14 +77,17 @@ class InfiniteScrollingBackground {
         self.sprites = InfiniteScrollingBackground.makeSpriteNodes(images, spriteSize)
         self.scene = scene
         self.scrollDirection = scrollDirection
-        self.speed = speed        
+        self.speed = speed
+        
+        // Setup the anchor point for every sprite:
+        setSpritesAnchorPoints()
     }
     
     // MARK: Public Methods
     
     /**
      Scrolls the background images indefinitely.
-    */
+     */
     public func scroll() {
         switch scrollDirection {
         case .bottom:
@@ -102,7 +106,7 @@ class InfiniteScrollingBackground {
         let numberOfSprites = sprites.count
         let transitionDuration = self.speed
         for index in 0...numberOfSprites - 1 {
-            sprites[index].position = CGPoint(x: sprites[index].size.width/2 - (CGFloat(index) * sprites[index].size.width), y: UIScreen.main.bounds.height/2)
+            sprites[index].position = CGPoint(x: sprites[index].size.width/2 - (CGFloat(index) * sprites[index].size.width), y: sceneSize().height/2)
             let initialMovementAction = SKAction.moveTo(x: 1.5 * sprites[index].size.width, duration: transitionDuration * Double(index + 1))
             let permanentMovementAction = SKAction.moveTo(x: 1.5 * sprites[index].size.width, duration: transitionDuration * Double(numberOfSprites))
             let putsImageOnTheRight = SKAction.moveTo(x: sprites[index].size.width/2 - (sprites[index].size.width * CGFloat(numberOfSprites - 1)), duration: 0.0)
@@ -115,7 +119,7 @@ class InfiniteScrollingBackground {
         let numberOfSprites = sprites.count
         let transitionDuration = self.speed
         for index in 0...numberOfSprites - 1 {
-            sprites[index].position = CGPoint(x: sprites[index].size.width/2 + (CGFloat(index) * sprites[index].size.width), y: UIScreen.main.bounds.height/2)
+            sprites[index].position = CGPoint(x: sprites[index].size.width/2 + (CGFloat(index) * sprites[index].size.width), y: sceneSize().height/2)
             let initialMovementAction = SKAction.moveTo(x: -1 * sprites[index].size.width/2, duration: transitionDuration * Double(index + 1))
             let permanentMovementAction = SKAction.moveTo(x: -1 * sprites[index].size.width/2, duration: transitionDuration * Double(numberOfSprites))
             let putsImageOnTheLeft = SKAction.moveTo(x: sprites[index].size.width/2 + (sprites[index].size.width * CGFloat(numberOfSprites - 1)), duration: 0.0)
@@ -128,7 +132,7 @@ class InfiniteScrollingBackground {
         let numberOfSprites = sprites.count
         let transitionDuration = self.speed
         for index in 0...numberOfSprites - 1 {
-            sprites[index].position = CGPoint(x: UIScreen.main.bounds.width/2, y: sprites[index].size.height/2 - (CGFloat(index) * sprites[index].size.height))
+            sprites[index].position = CGPoint(x: sceneSize().width/2, y: sprites[index].size.height/2 - (CGFloat(index) * sprites[index].size.height))
             let initialMovementAction = SKAction.moveTo(y: 1.5 * sprites[index].size.height, duration: transitionDuration * Double(index + 1))
             let permanentMovementAction = SKAction.moveTo(y: 1.5 * sprites[index].size.height, duration: transitionDuration * Double(numberOfSprites))
             let putsImageOnBottomAction = SKAction.moveTo(y: sprites[index].size.height/2 - (sprites[index].size.height * CGFloat(numberOfSprites - 1)), duration: 0.0)
@@ -141,12 +145,25 @@ class InfiniteScrollingBackground {
         let numberOfSprites = sprites.count
         let transitionDuration = self.speed
         for index in 0...numberOfSprites - 1 {
-            sprites[index].position = CGPoint(x: UIScreen.main.bounds.width/2, y: sprites[index].size.height/2 + (CGFloat(index) * sprites[index].size.height))
+            sprites[index].position = CGPoint(x: sceneSize().width/2, y: sprites[index].size.height/2 + (CGFloat(index) * sprites[index].size.height))
             let initialMovementAction = SKAction.moveTo(y: -1 * sprites[index].size.height/2, duration: transitionDuration * Double(index + 1))
             let permanentMovementAction = SKAction.moveTo(y: -1 * sprites[index].size.height/2, duration: transitionDuration * Double(numberOfSprites))
             let putsImageOnTopAction = SKAction.moveTo(y: sprites[index].size.height/2 + (sprites[index].size.height * CGFloat(numberOfSprites - 1)), duration: 0.0)
             sprites[index].run(SKAction.sequence([initialMovementAction, putsImageOnTopAction, SKAction.repeatForever(SKAction.sequence([permanentMovementAction, putsImageOnTopAction]))]))
             scene?.addChild(sprites[index])
+        }
+    }
+    
+    private func sceneSize() -> CGSize {
+        return scene?.size ?? CGSize()
+    }
+    
+    private func setSpritesAnchorPoints() {
+        if let s = scene {
+            for sprite in sprites {
+                sprite.anchorPoint.x = s.anchorPoint.x + 0.5
+                sprite.anchorPoint.y = s.anchorPoint.y + 0.5
+            }
         }
     }
     
@@ -209,6 +226,6 @@ class InfiniteScrollingBackground {
     // MARK: Static Private Methods
     static private func printInitErrorMessage(_ message : String) {
         print("InfiniteScrollingBackground Initialization Error - " + message)
-    }    
+    }
 }
 
