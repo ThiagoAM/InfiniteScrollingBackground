@@ -9,7 +9,7 @@
 class GameScene: SKScene {
     
     // Declaring the InfiniteScrollingBackground Instance:
-    private var scroller : InfiniteScrollingBackground?
+    var scroller : InfiniteScrollingBackground?
     
     override func didMove(to view: SKView) {
         
