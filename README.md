@@ -6,7 +6,7 @@
 
 **Check and run the Xcode project inside the Example_Project folder!**<br />
 
-# Example (inside a SKScene)
+# Example
 ```
 class GameScene: SKScene {
     
