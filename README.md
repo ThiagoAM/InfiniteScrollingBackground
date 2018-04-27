@@ -2,9 +2,9 @@
 **How to use:** <br />
 • Create a `InfiniteScrollingBackground` instance <br />
 • Call the `scroll` method <br />
-• That's it! <br /><br />
+• That's it! <br />
 
-**Check out the Xcode project inside the Example_Project folder!**<br />
+**• Check out the Xcode project inside the Example_Project folder!**<br />
 
 # Example (inside a SKScene)
 ```
