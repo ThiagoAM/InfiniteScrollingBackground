@@ -7,7 +7,7 @@
 **Check and run the Xcode project inside the Example_Project folder!**<br />
 
 # Example
-```
+```swift
 class GameScene: SKScene {
     
     // Declaring the InfiniteScrollingBackground Instance:
