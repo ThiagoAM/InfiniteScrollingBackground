@@ -251,7 +251,7 @@ class InfiniteScrollingBackground {
     // MARK: Static Private Methods
     
     /**
-     Prints a initialization error message.
+     Prints an initialization error message.
     */
     static private func printInitErrorMessage(_ message : String) {
         print("InfiniteScrollingBackground Initialization Error - " + message)
