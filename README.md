@@ -37,4 +37,4 @@ class GameScene: SKScene {
 • Remember to set the `zPosition` after initializing the scrolling background object.
 
 # License
-InfiniteScrollingBackground project is licensed under MIT License (https://opensource.org/licenses/MIT)
+InfiniteScrollingBackground project is licensed under MIT License ([MIT-License](MIT-License) or https://opensource.org/licenses/MIT)
