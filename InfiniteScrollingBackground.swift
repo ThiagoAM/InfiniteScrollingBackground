@@ -18,35 +18,23 @@ class InfiniteScrollingBackground {
     
     // MARK: Public Properties
     public var zPosition : CGFloat {
-        get {
-            return getZPosition()
-        }
-        set {
-            setZPosition(newValue)
-        }
+        get { return getZPosition() }
+        set { setZPosition(newValue) }
     }
     
     public var alpha : CGFloat {
-        get {
-            return getAlpha()
-        }
-        set {
-            setAlpha(newValue)
-        }
+        get { return getAlpha() }
+        set { setAlpha(newValue) }
     }
     
     public var isPaused : Bool {
-        get {
-            return getIsPaused()
-        }
-        set {
-            setIsPaused(newValue)
-        }
+        get { return getIsPaused() }
+        set { setIsPaused(newValue) }
     }
     
     // MARK: Private Properties
     private let sprites : [SKSpriteNode]
-    private weak var scene : SKScene?
+    private unowned let scene : SKScene
     
     // MARK: Public Properties
     public let speed : TimeInterval
@@ -59,22 +47,22 @@ class InfiniteScrollingBackground {
      - images: use at least 2 images
      - scene: your SKScene instance
      - scrollDirection: use .top, .bottom, .left or .right
-     - speed: the lower, the faster. Needs to be bigger than 0
+     - speed: any value between 0 and 100. The bigger, the faster!
      */
-    init?(images : [UIImage], scene : SKScene, scrollDirection : ScrollDirection, speed : TimeInterval) {
+    init?(images : [UIImage], scene : SKScene, scrollDirection : ScrollDirection, speed : Double) {
         
         // handling invalid initializations:
         guard images.count > 1 else {
             InfiniteScrollingBackground.printInitErrorMessage("You must provide at least 2 images!")
             return nil
         }
-        guard speed > 0 else {
-            InfiniteScrollingBackground.printInitErrorMessage("The speed must be bigger than zero!")
+        guard (speed > 0) && (speed <= 100) else {
+            InfiniteScrollingBackground.printInitErrorMessage("The speed must be between 0 and 100!")
             return nil
         }
         // initiating attributes:
         let spriteSize = InfiniteScrollingBackground.spriteNodeSize(scrollDirection, images[0].size, scene)
-        self.sprites = InfiniteScrollingBackground.createSpriteNodes(images, spriteSize)
+        self.sprites = InfiniteScrollingBackground.createSpriteNodes(from: images, spriteSize)
         self.scene = scene
         self.scrollDirection = scrollDirection
         self.speed = speed
@@ -108,14 +96,14 @@ class InfiniteScrollingBackground {
     */
     private func scrollToTheRight() {
         let numberOfSprites = sprites.count
-        let transitionDuration = self.speed
+        let transitionDuration = self.transitionDuration(speed: speed)
         for index in 0...numberOfSprites - 1 {
             sprites[index].position = CGPoint(x: sprites[index].size.width/2 - (CGFloat(index) * sprites[index].size.width), y: sceneSize().height/2)
             let initialMovementAction = SKAction.moveTo(x: 1.5 * sprites[index].size.width, duration: transitionDuration * Double(index + 1))
             let permanentMovementAction = SKAction.moveTo(x: 1.5 * sprites[index].size.width, duration: transitionDuration * Double(numberOfSprites))
             let putsImageOnTheRight = SKAction.moveTo(x: sprites[index].size.width/2 - (sprites[index].size.width * CGFloat(numberOfSprites - 1)), duration: 0.0)
             sprites[index].run(SKAction.sequence([initialMovementAction, putsImageOnTheRight, SKAction.repeatForever(SKAction.sequence([permanentMovementAction, putsImageOnTheRight]))]))
-            scene?.addChild(sprites[index])
+            scene.addChild(sprites[index])
         }
     }
     
@@ -124,14 +112,14 @@ class InfiniteScrollingBackground {
     */
     private func scrollToTheLeft() {
         let numberOfSprites = sprites.count
-        let transitionDuration = self.speed
+        let transitionDuration = self.transitionDuration(speed: speed)
         for index in 0...numberOfSprites - 1 {
             sprites[index].position = CGPoint(x: sprites[index].size.width/2 + (CGFloat(index) * sprites[index].size.width), y: sceneSize().height/2)
             let initialMovementAction = SKAction.moveTo(x: -1 * sprites[index].size.width/2, duration: transitionDuration * Double(index + 1))
             let permanentMovementAction = SKAction.moveTo(x: -1 * sprites[index].size.width/2, duration: transitionDuration * Double(numberOfSprites))
             let putsImageOnTheLeft = SKAction.moveTo(x: sprites[index].size.width/2 + (sprites[index].size.width * CGFloat(numberOfSprites - 1)), duration: 0.0)
             sprites[index].run(SKAction.sequence([initialMovementAction, putsImageOnTheLeft, SKAction.repeatForever(SKAction.sequence([permanentMovementAction, putsImageOnTheLeft]))]))
-            scene?.addChild(sprites[index])
+            scene.addChild(sprites[index])
         }
     }
     
@@ -140,14 +128,14 @@ class InfiniteScrollingBackground {
      */
     private func scrollUp() {
         let numberOfSprites = sprites.count
-        let transitionDuration = self.speed
+        let transitionDuration = self.transitionDuration(speed: speed)
         for index in 0...numberOfSprites - 1 {
             sprites[index].position = CGPoint(x: sceneSize().width/2, y: sprites[index].size.height/2 - (CGFloat(index) * sprites[index].size.height))
             let initialMovementAction = SKAction.moveTo(y: 1.5 * sprites[index].size.height, duration: transitionDuration * Double(index + 1))
             let permanentMovementAction = SKAction.moveTo(y: 1.5 * sprites[index].size.height, duration: transitionDuration * Double(numberOfSprites))
             let putsImageOnBottomAction = SKAction.moveTo(y: sprites[index].size.height/2 - (sprites[index].size.height * CGFloat(numberOfSprites - 1)), duration: 0.0)
             sprites[index].run(SKAction.sequence([initialMovementAction, putsImageOnBottomAction, SKAction.repeatForever(SKAction.sequence([permanentMovementAction, putsImageOnBottomAction]))]))
-            scene?.addChild(sprites[index])
+            scene.addChild(sprites[index])
         }
     }
     
@@ -156,33 +144,38 @@ class InfiniteScrollingBackground {
     */
     private func scrollDown() {
         let numberOfSprites = sprites.count
-        let transitionDuration = self.speed
+        let transitionDuration = self.transitionDuration(speed: speed)
         for index in 0...numberOfSprites - 1 {
             sprites[index].position = CGPoint(x: sceneSize().width/2, y: sprites[index].size.height/2 + (CGFloat(index) * sprites[index].size.height))
             let initialMovementAction = SKAction.moveTo(y: -1 * sprites[index].size.height/2, duration: transitionDuration * Double(index + 1))
             let permanentMovementAction = SKAction.moveTo(y: -1 * sprites[index].size.height/2, duration: transitionDuration * Double(numberOfSprites))
             let putsImageOnTopAction = SKAction.moveTo(y: sprites[index].size.height/2 + (sprites[index].size.height * CGFloat(numberOfSprites - 1)), duration: 0.0)
             sprites[index].run(SKAction.sequence([initialMovementAction, putsImageOnTopAction, SKAction.repeatForever(SKAction.sequence([permanentMovementAction, putsImageOnTopAction]))]))
-            scene?.addChild(sprites[index])
+            scene.addChild(sprites[index])
         }
+    }
+    
+    /**
+     Converts the speed to the transition duration.
+    */
+    private func transitionDuration(speed : Double) -> TimeInterval {
+        return 50.0/speed
     }
     
     /**
      Returns the scene size.
     */
     private func sceneSize() -> CGSize {
-        return scene?.size ?? CGSize()
+        return scene.size
     }
     
     /**
      Sets the anchor points of every sprite node to match the scene's anchor point.
     */
     private func setSpritesAnchorPoints() {
-        if let s = scene {
-            for sprite in sprites {
-                sprite.anchorPoint.x = s.anchorPoint.x + 0.5
-                sprite.anchorPoint.y = s.anchorPoint.y + 0.5
-            }
+        for sprite in sprites {
+            sprite.anchorPoint.x = scene.anchorPoint.x + 0.5
+            sprite.anchorPoint.y = scene.anchorPoint.y + 0.5
         }
     }
     
@@ -207,7 +200,7 @@ class InfiniteScrollingBackground {
     /**
      Creates every sprite node from a image array.
     */
-    private static func createSpriteNodes(_ images : [UIImage], _ size : CGSize) -> [SKSpriteNode] {
+    private static func createSpriteNodes(from images : [UIImage], _ size : CGSize) -> [SKSpriteNode] {
         var tempSprites = [SKSpriteNode]()
         for image in images {
             let texture = SKTexture(image: image)
@@ -254,6 +247,6 @@ class InfiniteScrollingBackground {
      Prints an initialization error message.
     */
     static private func printInitErrorMessage(_ message : String) {
-        print("InfiniteScrollingBackground Initialization Error - " + message)
+        print("InfiniteScrollingBackground Initialization Error - \(message)")
     }
 }
