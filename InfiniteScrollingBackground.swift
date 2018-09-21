@@ -10,13 +10,15 @@ class InfiniteScrollingBackground {
     
     // MARK: Enumerations
     enum ScrollDirection {
-        case top
-        case bottom
-        case left
-        case right
+        case top, bottom, left, right
     }
     
     // MARK: Public Properties
+    public var speed : CGFloat {
+        get { return getSpeed() }
+        set { setSpeed(newValue) }
+    }
+    
     public var zPosition : CGFloat {
         get { return getZPosition() }
         set { setZPosition(newValue) }
@@ -32,12 +34,10 @@ class InfiniteScrollingBackground {
         set { setIsPaused(newValue) }
     }
     
-    // MARK: Private Properties
-    private let sprites : [SKSpriteNode]
-    private unowned let scene : SKScene
-    
     // MARK: Public Properties
-    public let speed : TimeInterval
+    public unowned let scene : SKScene
+    public let sprites : [SKSpriteNode]
+    public let transitionSpeed : TimeInterval
     public let scrollDirection : ScrollDirection
     
     // MARK: Initialization
@@ -47,25 +47,26 @@ class InfiniteScrollingBackground {
      - images: use at least 2 images
      - scene: your SKScene instance
      - scrollDirection: use .top, .bottom, .left or .right
-     - speed: any value between 0 and 100. The bigger, the faster!
+     - transitionSpeed: any value between 0 and 100. The bigger, the faster!
      */
-    init?(images : [UIImage], scene : SKScene, scrollDirection : ScrollDirection, speed : Double) {
+    init?(images : [UIImage], scene : SKScene, scrollDirection : ScrollDirection, transitionSpeed : Double) {
         
         // handling invalid initializations:
         guard images.count > 1 else {
             InfiniteScrollingBackground.printInitErrorMessage("You must provide at least 2 images!")
             return nil
         }
-        guard (speed > 0) && (speed <= 100) else {
-            InfiniteScrollingBackground.printInitErrorMessage("The speed must be between 0 and 100!")
+        guard (transitionSpeed > 0) && (transitionSpeed <= 100) else {
+            InfiniteScrollingBackground.printInitErrorMessage("The transitionSpeed must be between 0 and 100!")
             return nil
         }
+        
         // initiating attributes:
         let spriteSize = InfiniteScrollingBackground.spriteNodeSize(scrollDirection, images[0].size, scene)
         self.sprites = InfiniteScrollingBackground.createSpriteNodes(from: images, spriteSize)
         self.scene = scene
         self.scrollDirection = scrollDirection
-        self.speed = speed
+        self.transitionSpeed = transitionSpeed
         
         // Setup the anchor point for every sprite:
         setSpritesAnchorPoints()
@@ -96,7 +97,7 @@ class InfiniteScrollingBackground {
     */
     private func scrollToTheRight() {
         let numberOfSprites = sprites.count
-        let transitionDuration = self.transitionDuration(speed: speed)
+        let transitionDuration = self.transitionDuration(transitionSpeed: transitionSpeed)
         for index in 0...numberOfSprites - 1 {
             sprites[index].position = CGPoint(x: sprites[index].size.width/2 - (CGFloat(index) * sprites[index].size.width), y: sceneSize().height/2)
             let initialMovementAction = SKAction.moveTo(x: 1.5 * sprites[index].size.width, duration: transitionDuration * Double(index + 1))
@@ -112,7 +113,7 @@ class InfiniteScrollingBackground {
     */
     private func scrollToTheLeft() {
         let numberOfSprites = sprites.count
-        let transitionDuration = self.transitionDuration(speed: speed)
+        let transitionDuration = self.transitionDuration(transitionSpeed: transitionSpeed)
         for index in 0...numberOfSprites - 1 {
             sprites[index].position = CGPoint(x: sprites[index].size.width/2 + (CGFloat(index) * sprites[index].size.width), y: sceneSize().height/2)
             let initialMovementAction = SKAction.moveTo(x: -1 * sprites[index].size.width/2, duration: transitionDuration * Double(index + 1))
@@ -128,7 +129,7 @@ class InfiniteScrollingBackground {
      */
     private func scrollUp() {
         let numberOfSprites = sprites.count
-        let transitionDuration = self.transitionDuration(speed: speed)
+        let transitionDuration = self.transitionDuration(transitionSpeed: transitionSpeed)
         for index in 0...numberOfSprites - 1 {
             sprites[index].position = CGPoint(x: sceneSize().width/2, y: sprites[index].size.height/2 - (CGFloat(index) * sprites[index].size.height))
             let initialMovementAction = SKAction.moveTo(y: 1.5 * sprites[index].size.height, duration: transitionDuration * Double(index + 1))
@@ -144,7 +145,7 @@ class InfiniteScrollingBackground {
     */
     private func scrollDown() {
         let numberOfSprites = sprites.count
-        let transitionDuration = self.transitionDuration(speed: speed)
+        let transitionDuration = self.transitionDuration(transitionSpeed: transitionSpeed)
         for index in 0...numberOfSprites - 1 {
             sprites[index].position = CGPoint(x: sceneSize().width/2, y: sprites[index].size.height/2 + (CGFloat(index) * sprites[index].size.height))
             let initialMovementAction = SKAction.moveTo(y: -1 * sprites[index].size.height/2, duration: transitionDuration * Double(index + 1))
@@ -156,10 +157,10 @@ class InfiniteScrollingBackground {
     }
     
     /**
-     Converts the speed to the transition duration.
+     Converts the transitionSpeed to the transition duration.
     */
-    private func transitionDuration(speed : Double) -> TimeInterval {
-        return 50.0/speed
+    private func transitionDuration(transitionSpeed : Double) -> TimeInterval {
+        return 50.0/transitionSpeed
     }
     
     /**
@@ -211,6 +212,16 @@ class InfiniteScrollingBackground {
     }
     
     // MARK: Getters and Setters:
+    private func getSpeed() -> CGFloat {
+        return sprites[0].speed
+    }
+    
+    private func setSpeed(_ value : CGFloat) {
+        for sprite in sprites {
+            sprite.speed = value
+        }
+    }
+    
     private func getIsPaused() -> Bool {
         return sprites[0].isPaused
     }
