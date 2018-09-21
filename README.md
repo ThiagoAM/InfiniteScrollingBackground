@@ -1,4 +1,4 @@
-# InfiniteScrollingBackground (Swift 4.1)
+# InfiniteScrollingBackground (Swift 4.2)
 **How to use:** <br />
 • Create a `InfiniteScrollingBackground` instance <br />
 • Call the `scroll` method <br />
