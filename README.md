@@ -17,10 +17,13 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         
         // Getting the images:
-        let images = [UIImage(named: "bgImage1")!, UIImage(named: "bgImage2")!]
+        let images = [
+            UIImage(named: "bgImage1")!,
+            UIImage(named: "bgImage2")!
+        ]
         
         // Initializing InfiniteScrollingBackground's Instance:
-        scroller = InfiniteScrollingBackground(images: images, scene: self, scrollDirection: .bottom, speed: 3)
+        scroller = InfiniteScrollingBackground(images: images, scene: self, scrollDirection: .bottom, transitionSpeed: 3)
         
         // Using it:
         scroller?.scroll()
