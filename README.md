@@ -1,4 +1,4 @@
-# InfiniteScrollingBackground (Swift 4.2)
+# InfiniteScrollingBackground (Swift 5.0 or 4.2)
 **How to use:** <br />
 • Add the "InfiniteScrollingBackground.swift" file to your project <br />
 • Create a `InfiniteScrollingBackground` instance <br />
@@ -11,7 +11,7 @@
 ```swift
 class GameScene: SKScene {
     
-    // Declaring the InfiniteScrollingBackground Instance:
+    // Declaring the InfiniteScrollingBackground instance:
     var scroller : InfiniteScrollingBackground?
     
     override func didMove(to view: SKView) {
@@ -22,15 +22,17 @@ class GameScene: SKScene {
             UIImage(named: "bgImage2")!
         ]
         
-        // Initializing InfiniteScrollingBackground's Instance:
-        scroller = InfiniteScrollingBackground(images: images, scene: self, scrollDirection: .bottom, transitionSpeed: 3)
+        // Initializing InfiniteScrollingBackground's instance:
+        scroller = InfiniteScrollingBackground(images: images,
+                                               scene: self,
+                                               scrollDirection: .bottom,
+                                               transitionSpeed: 3)
         
-        // Using it:
+        // Activating it:
         scroller?.scroll()
         
         // (Optional) Changing the instance's zPosition:
         scroller?.zPosition = 1
-        
     }
     
 }
@@ -38,7 +40,7 @@ class GameScene: SKScene {
 
 # Advices
 • Use images with a similar aspect ratio to the device's display. Example: If it's an iPhone on landscape, try to use a 16:9 image. On portrait, use 9:16 images; <br />
-• Remember to set the `zPosition` after initializing the scrolling background object.
+• Remember to set a `zPosition` after initializing the scrolling background object so it's visible.
 
 # License
 InfiniteScrollingBackground project is licensed under MIT License ([MIT-License](MIT-License) or https://opensource.org/licenses/MIT)
