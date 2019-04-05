@@ -9,7 +9,7 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    // Declaring the InfiniteScrollingBackground Instance:
+    // Declaring the InfiniteScrollingBackground instance:
     var scroller : InfiniteScrollingBackground?
     
     override func didMove(to view: SKView) {
@@ -20,15 +20,17 @@ class GameScene: SKScene {
             UIImage(named: "bgImage2")!
         ]
         
-        // Initializing InfiniteScrollingBackground's Instance:
-        scroller = InfiniteScrollingBackground(images: images, scene: self, scrollDirection: .bottom, transitionSpeed: 3)
+        // Initializing InfiniteScrollingBackground's instance:
+        scroller = InfiniteScrollingBackground(images: images,
+                                               scene: self,
+                                               scrollDirection: .bottom,
+                                               transitionSpeed: 3)
         
-        // Using it:
+        // Activating it:
         scroller?.scroll()
         
         // (Optional) Changing the instance's zPosition:
         scroller?.zPosition = 1
-        
     }
     
 }
