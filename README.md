@@ -40,7 +40,7 @@ class GameScene: SKScene {
 
 # Advices
 • Use images with a similar aspect ratio to the device's display. Example: If it's an iPhone on landscape, try to use a 16:9 image. On portrait, use 9:16 images; <br />
-• Remember to set the `zPosition` after initializing the scrolling background object.
+• Remember to set a `zPosition` after initializing the scrolling background object so it's visible.
 
 # License
 InfiniteScrollingBackground project is licensed under MIT License ([MIT-License](MIT-License) or https://opensource.org/licenses/MIT)
