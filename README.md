@@ -17,7 +17,7 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         
-        // Getting the images:
+        // Get your images here:
         let images = [
             UIImage(named: "bgImage1")!,
             UIImage(named: "bgImage2")!
