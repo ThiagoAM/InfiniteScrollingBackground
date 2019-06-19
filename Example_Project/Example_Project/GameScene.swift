@@ -16,15 +16,16 @@ class GameScene: SKScene {
         
         // Getting the images:
         let images = [
-            UIImage(named: "bgImage1")!,
-            UIImage(named: "bgImage2")!
+            UIImage(named: "cloud1")!,
+            UIImage(named: "cloud2")!,
+            
         ]
         
         // Initializing InfiniteScrollingBackground's instance:
         scroller = InfiniteScrollingBackground(images: images,
                                                scene: self,
-                                               scrollDirection: .bottom,
-                                               transitionSpeed: 3)
+                                               scrollDirection: .right,
+                                               transitionSpeed: 5)
         
         // Activating it:
         scroller?.scroll()

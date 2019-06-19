@@ -94,7 +94,7 @@ class InfiniteScrollingBackground {
     
     /**
      Scrolls the background images to the right.
-    */
+     */
     private func scrollToTheRight() {
         let numberOfSprites = sprites.count
         let transitionDuration = self.transitionDuration(transitionSpeed: transitionSpeed)
@@ -110,7 +110,7 @@ class InfiniteScrollingBackground {
     
     /**
      Scrolls the background images to the left.
-    */
+     */
     private func scrollToTheLeft() {
         let numberOfSprites = sprites.count
         let transitionDuration = self.transitionDuration(transitionSpeed: transitionSpeed)
@@ -142,7 +142,7 @@ class InfiniteScrollingBackground {
     
     /**
      Scrolls down the background images.
-    */
+     */
     private func scrollDown() {
         let numberOfSprites = sprites.count
         let transitionDuration = self.transitionDuration(transitionSpeed: transitionSpeed)
@@ -158,21 +158,21 @@ class InfiniteScrollingBackground {
     
     /**
      Converts the transitionSpeed to the transition duration.
-    */
+     */
     private func transitionDuration(transitionSpeed : Double) -> TimeInterval {
         return 50.0/transitionSpeed
     }
     
     /**
      Returns the scene size.
-    */
+     */
     private func sceneSize() -> CGSize {
         return scene.size
     }
     
     /**
      Sets the anchor points of every sprite node to match the scene's anchor point.
-    */
+     */
     private func setSpritesAnchorPoints() {
         for sprite in sprites {
             sprite.anchorPoint.x = scene.anchorPoint.x + 0.5
@@ -182,7 +182,7 @@ class InfiniteScrollingBackground {
     
     /**
      Returns the size the background sprite node objects.
-    */
+     */
     private static func spriteNodeSize(_ direction : ScrollDirection, _ imageSize : CGSize, _ scene : SKScene) -> CGSize {
         var size = CGSize()
         switch direction {
@@ -191,16 +191,16 @@ class InfiniteScrollingBackground {
             let aspectRatio = imageSize.width/imageSize.height
             size = CGSize(width: width, height: width/aspectRatio)
         case .left, .right:
-            let width = scene.frame.width
+            let height = scene.frame.height
             let aspectRatio = imageSize.width/imageSize.height
-            size = CGSize(width: width, height: width/aspectRatio)
+            size = CGSize(width: height * aspectRatio, height: height)
         }
         return size
     }
     
     /**
      Creates every sprite node from a image array.
-    */
+     */
     private static func createSpriteNodes(from images : [UIImage], _ size : CGSize) -> [SKSpriteNode] {
         var tempSprites = [SKSpriteNode]()
         for image in images {
@@ -256,7 +256,7 @@ class InfiniteScrollingBackground {
     
     /**
      Prints an initialization error message.
-    */
+     */
     static private func printInitErrorMessage(_ message : String) {
         print("InfiniteScrollingBackground Initialization Error - \(message)")
     }

@@ -191,9 +191,9 @@ class InfiniteScrollingBackground {
             let aspectRatio = imageSize.width/imageSize.height
             size = CGSize(width: width, height: width/aspectRatio)
         case .left, .right:
-            let width = scene.frame.width
+            let height = scene.frame.height
             let aspectRatio = imageSize.width/imageSize.height
-            size = CGSize(width: width, height: width/aspectRatio)
+            size = CGSize(width: height * aspectRatio, height: height)
         }
         return size
     }
