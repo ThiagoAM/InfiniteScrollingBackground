@@ -1,4 +1,4 @@
-# InfiniteScrollingBackground (Swift 5.0 or 4.2)
+# InfiniteScrollingBackground (Swift 5)
 This is the very same moving background used in the Galactic Paper Battles iOS Game! Check it out to see how it looks in action: http://itunes.apple.com/app/id1417391531 <br/> <br/>
 **How to use:** <br />
 • Add the "InfiniteScrollingBackground.swift" file to your project <br />
